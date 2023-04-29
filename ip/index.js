@@ -1,5 +1,7 @@
 //axios import buraya gelecek
 
+import axios from 'axios';
+
 var benimIP;
 
 
@@ -20,7 +22,13 @@ async function ipAdresimiAl(){
 	});
 }				
 // ------------ değiştirmeyin --------------
+ipAdresimiAl();
+console.log(`IP ADRESİM = ${benimIP}`);
 
+
+// IP adresini al
+
+  
 
 /*
 	ADIM 1: axios kullanarak, aşağıdaki URL'ye GET sorgusu atacağız
@@ -70,3 +78,72 @@ async function ipAdresimiAl(){
 
 
 //kodlar buraya gelecek
+
+ipAdresimiAl().then(function() {
+
+
+	function yeniCard (data) {
+
+		const divClass = document.createElement('div');
+		divClass.setAttribute('class', "card" )
+	
+		const bayrak = document.createElement('img');
+		bayrak.setAttribute('src', data.ülkebayrağı);
+		divClass.append(bayrak);
+	
+		const cardInfo = document.createElement('div');
+		cardInfo.classList.add('card-info');
+		divClass.append(cardInfo);
+	
+		const baslik = document.createElement('h3');
+		baslik.textContent = data.sorgu;
+		cardInfo.append(baslik);
+	
+		const ulke = document.createElement('p');
+		ulke.textContent = `${data.ülke} (${data.ülkeKodu})`;
+		cardInfo.append(ulke);
+	
+	
+		const enlemBoylam = document.createElement('p');
+		enlemBoylam.textContent = `Enlem : ${data.enlem} Boylam : ${data.boylam}`;
+		cardInfo.append(enlemBoylam);
+	
+		const sehir = document.createElement('p');
+		sehir.textContent ="Şehir: " + data.şehir;
+		cardInfo.append(sehir);
+	
+		const saat = document.createElement('p');
+		saat.textContent = "Saat Dilimi: " + data.saatdilimi;
+		cardInfo.append(saat);
+	
+		const para = document.createElement('p');
+		para.textContent ="Para Birimi: " + data.parabirimi;
+		cardInfo.append(para);
+	
+		const isp = document.createElement('p');
+		isp.textContent = "ISP: " + data.isp;
+		cardInfo.append(isp);
+
+		return divClass;
+			
+	  }
+	
+	  const card = document.querySelector(".cards")
+	
+	axios.get(`https://apis.ergineer.com/ipgeoapi/`+ benimIP)
+	.then(response => {
+	  const ilkData = response.data;
+	  console.log(ilkData); 
+	  card.append(yeniCard(ilkData));
+	})
+	.catch(error => {
+	  console.log(error);
+	});
+	
+  });
+
+
+
+
+
+
